@@ -11,5 +11,5 @@ readme = "README.md"
 [dependencies]
 anyhow = "1.0.26"
 serde = "1.0.104"
-paired = "0.20.0"
+paired = { git = "https://github.com/nilfoundation/crusty3-pairing", version = "0.20.0" }
 filecoin-proofs-v1 = { package = "filecoin-proofs", git = "https://github.com/nilfoundation/rust-fil-proofs", version = "5.1.1" }
