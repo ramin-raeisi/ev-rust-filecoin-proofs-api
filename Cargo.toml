@@ -12,4 +12,8 @@ readme = "README.md"
 anyhow = "1.0.26"
 serde = "1.0.104"
 paired = { git = "https://github.com/nilfoundation/crusty3-pairing", version = "0.20.0" }
-filecoin-proofs-v1 = { package = "filecoin-proofs", git = "ssh://git@github.com/nilfoundation/rust-fil-proofs", branch = "master" }
+filecoin-proofs-v1 = { package = "filecoin-proofs", git = "ssh://git@github.com/nilfoundation/rust-fil-proofs.git", branch = "master" }
+
+[features]
+default = ["gpu"]
+gpu = ["filecoin-proofs-v1/gpu"]
