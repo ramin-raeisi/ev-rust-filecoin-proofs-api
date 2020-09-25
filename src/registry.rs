@@ -175,7 +175,7 @@ impl RegisteredSealProof {
         match self.version() {
             Version::V1 => {
                 let id = self.circuit_identifier()?;
-                let params = filecoin_proofs_v1::storage_proofs::parameter_cache::get_parameter_data(&id);
+                let params = filecoin_proofs_v1::storage_proofs::parameter_cache::get_parameter_data_from_id(&id);
                 ensure!(params.is_some(), "missing params for {}", &id);
 
                 Ok(params.expect("param cid failure").cid.clone())
@@ -376,7 +376,7 @@ impl RegisteredPoStProof {
         match self.version() {
             Version::V1 => {
                 let id = self.circuit_identifier()?;
-                let params = filecoin_proofs_v1::storage_proofs::parameter_cache::get_parameter_data(&id);
+                let params = filecoin_proofs_v1::storage_proofs::parameter_cache::get_parameter_data_from_id(&id);
                 ensure!(params.is_some(), "missing params for {}", &id);
 
                 Ok(params.expect("params cid failure").cid.clone())
