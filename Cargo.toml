@@ -12,9 +12,10 @@ readme = "README.md"
 anyhow = "1.0.26"
 bincode = "1.1.2"
 serde = "1.0.104"
-paired = { git = "https://github.com/nilfoundation/crusty3-pairing", branch = "master" }
 filecoin-proofs-v1 = { package = "filecoin-proofs", git = "ssh://git@github.com/nilfoundation/rust-fil-proofs.git", branch = "master" }
+bellperson = { git = "ssh://git@github.com/nilfoundation/fil-zk.git", branch = "master", default-features = false, features = ["gpu"] }
 
 [features]
-default = ["gpu"]
-gpu = ["filecoin-proofs-v1/gpu"]
+default = ["pairing"]
+pairing = ["filecoin-proofs-v1/pairing", "bellperson/pairing"]
+blst = ["filecoin-proofs-v1/blst", "bellperson/blst"]
