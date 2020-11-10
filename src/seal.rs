@@ -1,6 +1,7 @@
 use std::convert::TryInto;
 use std::io::{Read, Seek, Write};
 use std::path::{Path, PathBuf};
+use std::hash::Hasher;
 
 use anyhow::{bail, ensure, Error, Result};
 use filecoin_proofs_v1::constants::{
@@ -43,35 +44,35 @@ impl Labels {
         use std::any::Any;
         use RegisteredSealProof::*;
         match proof {
-            StackedDrg2KiBV1 => {
+            StackedDrg2KiBV1 | StackedDrg2KiBV1_1 => {
                 if let Some(labels) = Any::downcast_ref::<RawLabels<SectorShape2KiB>>(labels) {
                     Ok(Labels::StackedDrg2KiBV1(labels.clone()))
                 } else {
                     bail!("invalid labels provided")
                 }
             }
-            StackedDrg8MiBV1 => {
+            StackedDrg8MiBV1 | StackedDrg8MiBV1_1 => {
                 if let Some(labels) = Any::downcast_ref::<RawLabels<SectorShape8MiB>>(labels) {
                     Ok(Labels::StackedDrg8MiBV1(labels.clone()))
                 } else {
                     bail!("invalid labels provided")
                 }
             }
-            StackedDrg512MiBV1 => {
+            StackedDrg512MiBV1 | StackedDrg512MiBV1_1 => {
                 if let Some(labels) = Any::downcast_ref::<RawLabels<SectorShape512MiB>>(labels) {
                     Ok(Labels::StackedDrg512MiBV1(labels.clone()))
                 } else {
                     bail!("invalid labels provided")
                 }
             }
-            StackedDrg32GiBV1 => {
+            StackedDrg32GiBV1 | StackedDrg32GiBV1_1 => {
                 if let Some(labels) = Any::downcast_ref::<RawLabels<SectorShape32GiB>>(labels) {
                     Ok(Labels::StackedDrg32GiBV1(labels.clone()))
                 } else {
                     bail!("invalid labels provided")
                 }
             }
-            StackedDrg64GiBV1 => {
+            StackedDrg64GiBV1 | StackedDrg64GiBV1_1 => {
                 if let Some(labels) = Any::downcast_ref::<RawLabels<SectorShape64GiB>>(labels) {
                     Ok(Labels::StackedDrg64GiBV1(labels.clone()))
                 } else {
@@ -166,45 +167,45 @@ impl VanillaSealProof {
         use std::any::Any;
         use RegisteredSealProof::*;
         match proof {
-            StackedDrg2KiBV1 => {
+            StackedDrg2KiBV1 | StackedDrg2KiBV1_1 => {
                 if let Some(proofs) =
-                    Any::downcast_ref::<Vec<Vec<RawVanillaSealProof<SectorShape2KiB>>>>(proofs)
+                Any::downcast_ref::<Vec<Vec<RawVanillaSealProof<SectorShape2KiB>>>>(proofs)
                 {
                     Ok(VanillaSealProof::StackedDrg2KiBV1(proofs.clone()))
                 } else {
                     bail!("invalid proofs provided")
                 }
             }
-            StackedDrg8MiBV1 => {
+            StackedDrg8MiBV1 | StackedDrg8MiBV1_1 => {
                 if let Some(proofs) =
-                    Any::downcast_ref::<Vec<Vec<RawVanillaSealProof<SectorShape8MiB>>>>(proofs)
+                Any::downcast_ref::<Vec<Vec<RawVanillaSealProof<SectorShape8MiB>>>>(proofs)
                 {
                     Ok(VanillaSealProof::StackedDrg8MiBV1(proofs.clone()))
                 } else {
                     bail!("invalid proofs provided")
                 }
             }
-            StackedDrg512MiBV1 => {
+            StackedDrg512MiBV1 | StackedDrg512MiBV1_1 => {
                 if let Some(proofs) =
-                    Any::downcast_ref::<Vec<Vec<RawVanillaSealProof<SectorShape512MiB>>>>(proofs)
+                Any::downcast_ref::<Vec<Vec<RawVanillaSealProof<SectorShape512MiB>>>>(proofs)
                 {
                     Ok(VanillaSealProof::StackedDrg512MiBV1(proofs.clone()))
                 } else {
                     bail!("invalid proofs provided")
                 }
             }
-            StackedDrg32GiBV1 => {
+            StackedDrg32GiBV1 | StackedDrg32GiBV1_1 => {
                 if let Some(proofs) =
-                    Any::downcast_ref::<Vec<Vec<RawVanillaSealProof<SectorShape32GiB>>>>(proofs)
+                Any::downcast_ref::<Vec<Vec<RawVanillaSealProof<SectorShape32GiB>>>>(proofs)
                 {
                     Ok(VanillaSealProof::StackedDrg32GiBV1(proofs.clone()))
                 } else {
                     bail!("invalid proofs provided")
                 }
             }
-            StackedDrg64GiBV1 => {
+            StackedDrg64GiBV1 | StackedDrg64GiBV1_1 => {
                 if let Some(proofs) =
-                    Any::downcast_ref::<Vec<Vec<RawVanillaSealProof<SectorShape64GiB>>>>(proofs)
+                Any::downcast_ref::<Vec<Vec<RawVanillaSealProof<SectorShape64GiB>>>>(proofs)
                 {
                     Ok(VanillaSealProof::StackedDrg64GiBV1(proofs.clone()))
                 } else {
@@ -216,7 +217,7 @@ impl VanillaSealProof {
 }
 
 impl<Tree: 'static + MerkleTreeTrait> TryInto<Vec<Vec<RawVanillaSealProof<Tree>>>>
-    for VanillaSealProof
+for VanillaSealProof
 {
     type Error = Error;
 
@@ -285,10 +286,10 @@ pub fn seal_pre_commit_phase1<R, S, T>(
     ticket: Ticket,
     piece_infos: &[PieceInfo],
 ) -> Result<SealPreCommitPhase1Output>
-where
-    R: AsRef<Path>,
-    S: AsRef<Path>,
-    T: AsRef<Path>,
+    where
+        R: AsRef<Path>,
+        S: AsRef<Path>,
+        T: AsRef<Path>,
 {
     ensure!(
         registered_proof.version() == Version::V1,
@@ -351,9 +352,9 @@ pub fn seal_pre_commit_phase2<R, S>(
     cache_path: R,
     out_path: S,
 ) -> Result<SealPreCommitPhase2Output>
-where
-    R: AsRef<Path>,
-    S: AsRef<Path>,
+    where
+        R: AsRef<Path>,
+        S: AsRef<Path>,
 {
     ensure!(
         phase1_output.registered_proof.version() == Version::V1,
@@ -488,7 +489,7 @@ fn seal_commit_phase1_inner<Tree: 'static + MerkleTreeTrait>(
         ticket,
     } = output;
 
-    let replica_id: paired::bls12_381::Fr = replica_id.into();
+    let replica_id: bellperson::bls::Fr = replica_id.into();
     Ok(SealCommitPhase1Output {
         registered_proof,
         vanilla_proofs: VanillaSealProof::from_raw::<Tree>(registered_proof, &vanilla_proofs)?,
@@ -535,7 +536,7 @@ fn seal_commit_phase2_inner<Tree: 'static + MerkleTreeTrait>(
     } = phase1_output;
 
     let config = registered_proof.as_v1_config();
-    let replica_id: paired::bls12_381::Fr = replica_id.into();
+    let replica_id: bellperson::bls::Fr = replica_id.into();
 
     let co = filecoin_proofs_v1::types::SealCommitPhase1Output {
         vanilla_proofs: vanilla_proofs.try_into()?,
@@ -1045,7 +1046,10 @@ pub fn generate_piece_commitment<T: Read>(
     use RegisteredSealProof::*;
     match registered_proof {
         StackedDrg2KiBV1 | StackedDrg8MiBV1 | StackedDrg512MiBV1 | StackedDrg32GiBV1
-        | StackedDrg64GiBV1 => filecoin_proofs_v1::generate_piece_commitment(source, piece_size),
+        | StackedDrg64GiBV1 | StackedDrg2KiBV1_1 | StackedDrg8MiBV1_1 | StackedDrg512MiBV1_1
+        | StackedDrg32GiBV1_1 | StackedDrg64GiBV1_1 => {
+            filecoin_proofs_v1::generate_piece_commitment(source, piece_size)
+        }
     }
 }
 
@@ -1056,14 +1060,15 @@ pub fn add_piece<R, W>(
     piece_size: UnpaddedBytesAmount,
     piece_lengths: &[UnpaddedBytesAmount],
 ) -> Result<(PieceInfo, UnpaddedBytesAmount)>
-where
-    R: Read,
-    W: Read + Write + Seek,
+    where
+        R: Read,
+        W: Read + Write + Seek,
 {
     use RegisteredSealProof::*;
     match registered_proof {
         StackedDrg2KiBV1 | StackedDrg8MiBV1 | StackedDrg512MiBV1 | StackedDrg32GiBV1
-        | StackedDrg64GiBV1 => {
+        | StackedDrg64GiBV1 | StackedDrg2KiBV1_1 | StackedDrg8MiBV1_1 | StackedDrg512MiBV1_1
+        | StackedDrg32GiBV1_1 | StackedDrg64GiBV1_1 => {
             filecoin_proofs_v1::add_piece(source, target, piece_size, piece_lengths)
         }
     }
@@ -1075,13 +1080,16 @@ pub fn write_and_preprocess<R, W>(
     target: W,
     piece_size: UnpaddedBytesAmount,
 ) -> Result<(PieceInfo, UnpaddedBytesAmount)>
-where
-    R: Read,
-    W: Read + Write + Seek,
+    where
+        R: Read,
+        W: Read + Write + Seek,
 {
     use RegisteredSealProof::*;
     match registered_proof {
         StackedDrg2KiBV1 | StackedDrg8MiBV1 | StackedDrg512MiBV1 | StackedDrg32GiBV1
-        | StackedDrg64GiBV1 => filecoin_proofs_v1::write_and_preprocess(source, target, piece_size),
+        | StackedDrg64GiBV1 | StackedDrg2KiBV1_1 | StackedDrg8MiBV1_1 | StackedDrg512MiBV1_1
+        | StackedDrg32GiBV1_1 | StackedDrg64GiBV1_1 => {
+            filecoin_proofs_v1::write_and_preprocess(source, target, piece_size)
+        }
     }
 }
