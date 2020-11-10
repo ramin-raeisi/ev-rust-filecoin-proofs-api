@@ -7,7 +7,7 @@ use anyhow::{bail, ensure, Error, Result};
 use filecoin_proofs_v1::constants::{
     SectorShape2KiB, SectorShape32GiB, SectorShape512MiB, SectorShape64GiB, SectorShape8MiB,
 };
-use filecoin_proofs_v1::storage_proofs::hasher::Hasher;
+use filecoin_proofs_v1::types::filecoin_hashers::Hasher;
 use filecoin_proofs_v1::types::MerkleTreeTrait;
 use filecoin_proofs_v1::types::VanillaSealProof as RawVanillaSealProof;
 use filecoin_proofs_v1::{with_shape, Labels as RawLabels};
