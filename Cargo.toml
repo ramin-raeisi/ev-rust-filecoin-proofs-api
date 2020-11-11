@@ -12,7 +12,7 @@ readme = "README.md"
 anyhow = "1.0.26"
 bincode = "1.1.2"
 serde = "1.0.104"
-filecoin-proofs-v1 = { package = "filecoin-proofs", git = "ssh://git@github.com/nilfoundation/rust-fil-proofs.git", branch = "master", default-features = false, features = ["tree_c-serial-tree_r_last", "gpu"] }
+filecoin-proofs-v1 = { package = "filecoin-proofs", git = "ssh://git@github.com/nilfoundation/rust-fil-proofs.git", branch = "master", default-features = false, features = ["gpu"] }
 bellperson = { git = "ssh://git@github.com/nilfoundation/fil-zk.git", branch = "master", default-features = false, features = ["gpu"] }
 
 [features]
