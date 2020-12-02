@@ -13,6 +13,9 @@ anyhow = "1.0.26"
 bincode = "1.1.2"
 serde = "1.0.104"
 filecoin-proofs-v1 = { package = "filecoin-proofs", version = "5.4.0", default-features = false, features = ["gpu"] }
+rayon = "1.1.0"
+log = "0.4.7"
+sds = { package = "sds", path = "../rust-fil-proofs/sds"}
 bellperson = { version = "0.12", default-features = false, features = ["gpu"] }
 
 [features]
