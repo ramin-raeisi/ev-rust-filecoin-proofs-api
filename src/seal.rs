@@ -3,7 +3,6 @@ use std::io::{Read, Seek, Write};
 use std::path::{Path, PathBuf};
 
 use anyhow::{bail, ensure, Error, Result};
-use filecoin_hashers::Hasher;
 
 use filecoin_proofs_v1::constants::{
     SectorShape2KiB, SectorShape32GiB, SectorShape512MiB, SectorShape64GiB, SectorShape8MiB,
