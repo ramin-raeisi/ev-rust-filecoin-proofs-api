@@ -12,6 +12,7 @@ readme = "README.md"
 anyhow = "1.0.26"
 bincode = "1.1.2"
 serde = "1.0.104"
+log = "0.4.8"
 filecoin-proofs-v1 = { package = "filecoin-proofs", git = "ssh://git@github.com/nilfoundation/rust-fil-proofs.git", branch = "4-sds-changes", default-features = false }
 filecoin-hashers = { package = "filecoin-hashers", git = "ssh://git@github.com/nilfoundation/rust-fil-proofs.git", branch = "4-sds-changes", default-features = false, features = ["poseidon", "sha256"] }
 sds = { package = "sds", git = "ssh://git@github.com/nilfoundation/rust-fil-proofs.git", branch = "4-sds-changes", default-features = false }
