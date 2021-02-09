@@ -12,9 +12,13 @@ readme = "README.md"
 anyhow = "1.0.26"
 bincode = "1.1.2"
 serde = "1.0.104"
-filecoin-proofs-v1 = { package = "filecoin-proofs", path = "../rust-fil-proofs/filecoin-proofs", default-features = false }
+
+filecoin-proofs-v1 = { package = "filecoin-proofs", path = "../rust-fil-proofs/filecoin-proofs", default-features = false, features = ["gpu"] }
 filecoin-hashers = { package = "filecoin-hashers", path = "../rust-fil-proofs/filecoin-hashers", default-features = false, features = ["poseidon", "sha256"] }
-bellperson = { path = "../fil-zk", default-features = false }
+storage-proofs-core = { package = "storage-proofs-core", path = "../rust-fil-proofs/storage-proofs-core", default-features = false, features = ["gpu"] }
+fr32 = { package = "fr32", path = "../rust-fil-proofs/fr32", default-features = false, features = ["gpu"] }
+bellperson = { path = "../fil-zk", default-features = false, features = ["gpu"]}
+
 
 [features]
 default = ["blst", "gpu"]
