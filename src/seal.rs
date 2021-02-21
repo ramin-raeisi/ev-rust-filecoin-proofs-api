@@ -520,6 +520,25 @@ pub fn seal_commit_phase2(
     )
 }
 
+pub fn calibrate_seal_commit_phase2(
+    phase1_output: SealCommitPhase1Output,
+    prover_id: ProverId,
+    sector_id: SectorId,
+) -> Result<SealCommitPhase2Output> {
+    ensure!(
+        phase1_output.registered_proof.major_version() == 1,
+        "unusupported version"
+    );
+
+    with_shape!(
+        u64::from(phase1_output.registered_proof.sector_size()),
+        calibrate_seal_commit_phase2_inner,
+        phase1_output,
+        prover_id,
+        sector_id,
+    )
+}
+
 fn seal_commit_phase2_inner<Tree: 'static + MerkleTreeTrait>(
     phase1_output: SealCommitPhase1Output,
     prover_id: ProverId,
@@ -548,6 +567,40 @@ fn seal_commit_phase2_inner<Tree: 'static + MerkleTreeTrait>(
     };
 
     let output = filecoin_proofs_v1::seal_commit_phase2::<Tree>(config, co, prover_id, sector_id)?;
+
+    Ok(SealCommitPhase2Output {
+        proof: output.proof,
+    })
+}
+
+fn calibrate_seal_commit_phase2_inner<Tree: 'static + MerkleTreeTrait>(
+    phase1_output: SealCommitPhase1Output,
+    prover_id: ProverId,
+    sector_id: SectorId,
+) -> Result<SealCommitPhase2Output> {
+    let SealCommitPhase1Output {
+        vanilla_proofs,
+        comm_r,
+        comm_d,
+        replica_id,
+        seed,
+        ticket,
+        registered_proof,
+    } = phase1_output;
+
+    let config = registered_proof.as_v1_config();
+    let replica_id: bellperson::bls::Fr = replica_id.into();
+
+    let co = filecoin_proofs_v1::types::SealCommitPhase1Output {
+        vanilla_proofs: vanilla_proofs.try_into()?,
+        comm_r,
+        comm_d,
+        replica_id: replica_id.into(),
+        seed,
+        ticket,
+    };
+
+    let output = filecoin_proofs_v1::calibrate_seal_commit_phase2::<Tree>(config, co, prover_id, sector_id)?;
 
     Ok(SealCommitPhase2Output {
         proof: output.proof,
