@@ -284,7 +284,6 @@ pub fn seal_pre_commit_phase1<R, S, T>(
     prover_id: ProverId,
     sector_id: SectorId,
     ticket: Ticket,
-    piece_infos: &[PieceInfo],
 ) -> Result<SealPreCommitPhase1Output>
     where
         R: AsRef<Path>,
@@ -306,7 +305,6 @@ pub fn seal_pre_commit_phase1<R, S, T>(
         prover_id,
         sector_id,
         ticket,
-        piece_infos
     )
 }
 
@@ -318,7 +316,6 @@ fn seal_pre_commit_phase1_inner<Tree: 'static + MerkleTreeTrait>(
     prover_id: ProverId,
     sector_id: SectorId,
     ticket: Ticket,
-    piece_infos: &[PieceInfo],
 ) -> Result<SealPreCommitPhase1Output> {
     let config = registered_proof.as_v1_config();
 
@@ -330,7 +327,6 @@ fn seal_pre_commit_phase1_inner<Tree: 'static + MerkleTreeTrait>(
         prover_id,
         sector_id,
         ticket,
-        piece_infos,
     )?;
 
     let filecoin_proofs_v1::types::SealPreCommitPhase1Output::<Tree> {
@@ -426,7 +422,6 @@ pub fn seal_commit_phase1<T: AsRef<Path>>(
     ticket: Ticket,
     seed: Ticket,
     pre_commit: SealPreCommitPhase2Output,
-    piece_infos: &[PieceInfo],
 ) -> Result<SealCommitPhase1Output> {
     ensure!(
         pre_commit.registered_proof.major_version() == 1,
@@ -443,7 +438,6 @@ pub fn seal_commit_phase1<T: AsRef<Path>>(
         ticket,
         seed,
         pre_commit,
-        piece_infos,
     )
 }
 
@@ -455,7 +449,6 @@ fn seal_commit_phase1_inner<Tree: 'static + MerkleTreeTrait>(
     ticket: Ticket,
     seed: Ticket,
     pre_commit: SealPreCommitPhase2Output,
-    piece_infos: &[PieceInfo],
 ) -> Result<SealCommitPhase1Output> {
     let SealPreCommitPhase2Output {
         comm_r,
@@ -477,7 +470,6 @@ fn seal_commit_phase1_inner<Tree: 'static + MerkleTreeTrait>(
         ticket,
         seed,
         pc,
-        piece_infos,
     )?;
 
     let filecoin_proofs_v1::types::SealCommitPhase1Output::<Tree> {
