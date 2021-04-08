@@ -1147,7 +1147,7 @@ pub fn write_and_preprocess<R, W>(
     }
 }
 
-pub fn generate_labels_bench<R, S, T>(
+pub fn generate_labels_bench<R>(
     registered_proof: RegisteredSealProof,
     cache_path: R,
     prover_id: ProverId,
@@ -1157,8 +1157,6 @@ pub fn generate_labels_bench<R, S, T>(
 ) -> Result<()>
     where
         R: AsRef<Path>,
-        S: AsRef<Path>,
-        T: AsRef<Path>,
 {
     ensure!(
         registered_proof.major_version() == 1,
