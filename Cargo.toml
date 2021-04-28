@@ -13,11 +13,11 @@ anyhow = "1.0.26"
 bincode = "1.1.2"
 serde = "1.0.104"
 
-filecoin-proofs-v1 = { package = "filecoin-proofs", path = "../rust-fil-proofs/filecoin-proofs", default-features = false, features = ["gpu"] }
-filecoin-hashers = { package = "filecoin-hashers", path = "../rust-fil-proofs/filecoin-hashers", default-features = false, features = ["poseidon", "sha256"] }
-storage-proofs-core = { package = "storage-proofs-core", path = "../rust-fil-proofs/storage-proofs-core", default-features = false, features = ["gpu"] }
-fr32 = { package = "fr32", path = "../rust-fil-proofs/fr32", default-features = false, features = ["gpu"] }
-bellperson = { path = "../fil-zk", default-features = false, features = ["gpu"]}
+filecoin-proofs-v1 = { package = "filecoin-proofs", git = "ssh://git@github.com/nilfoundation/rust-fil-proofs.git", branch = "9-add-piece-removal", default-features = false, features = ["gpu"] }
+storage-proofs-core = { package = "storage-proofs-core", git = "ssh://git@github.com/nilfoundation/rust-fil-proofs.git", branch = "9-add-piece-removal", default-features = false, features = ["gpu"] }
+fr32 = { package = "fr32", git = "ssh://git@github.com/nilfoundation/rust-fil-proofs.git", default-features = false, branch = "9-add-piece-removal", features = ["gpu"] }
+filecoin-hashers = { package = "filecoin-hashers", git = "ssh://git@github.com/nilfoundation/rust-fil-proofs.git", branch = "9-add-piece-removal", default-features = false, features = ["poseidon", "sha256"] }
+bellperson = { git = "ssh://git@github.com/nilfoundation/fil-zk.git", branch = "master", default-features = false, features = ["gpu"] }
 
 
 [features]
