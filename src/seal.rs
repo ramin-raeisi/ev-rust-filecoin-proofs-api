@@ -1138,3 +1138,53 @@ pub fn write_and_preprocess<R, W>(
         }
     }
 }
+
+pub fn generate_labels_bench<R>(
+    registered_proof: RegisteredSealProof,
+    cache_path: R,
+    prover_id: ProverId,
+    sector_id: SectorId,
+    ticket: Ticket,
+    piece_infos: &[PieceInfo],
+) -> Result<()>
+    where
+        R: AsRef<Path>,
+{
+    ensure!(
+        registered_proof.major_version() == 1,
+        "unusupported version"
+    );
+
+    with_shape!(
+        u64::from(registered_proof.sector_size()),
+        generate_labels_bench_inner,
+        registered_proof,
+        cache_path.as_ref(),
+        prover_id,
+        sector_id,
+        ticket,
+        piece_infos
+    )
+}
+
+fn generate_labels_bench_inner<Tree: 'static + MerkleTreeTrait>(
+    registered_proof: RegisteredSealProof,
+    cache_path: &Path,
+    prover_id: ProverId,
+    sector_id: SectorId,
+    ticket: Ticket,
+    piece_infos: &[PieceInfo],
+) -> Result<()> {
+    let config = registered_proof.as_v1_config();
+
+    filecoin_proofs_v1::generate_labels_bench::<_, Tree>(
+        config,
+        cache_path,
+        prover_id,
+        sector_id,
+        ticket,
+        piece_infos,
+    )?;
+
+    Ok(())
+}
