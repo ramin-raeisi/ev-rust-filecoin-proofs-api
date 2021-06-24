@@ -1,13 +1,13 @@
 use std::path::PathBuf;
 
 use anyhow::{ensure, Result};
-use filecoin_proofs_v1::types::{
-    MerkleTreeTrait, PoRepConfig, PoRepProofPartitions, PoStConfig, PoStType, SectorSize,
-};
 use filecoin_proofs_v1::{constants, with_shape};
+use filecoin_proofs_v1::{PoRepConfig, PoRepProofPartitions, PoStConfig, PoStType, SectorSize};
 use serde::{Deserialize, Serialize};
 use storage_proofs_core::api_version::ApiVersion;
 use storage_proofs_core::parameter_cache::{get_parameter_data, get_verifying_key_data};
+
+use crate::{MerkleTreeTrait};
 
 /// Available seal proofs.
 /// Enum is append-only: once published, a `RegisteredSealProof` value must never change.
@@ -24,6 +24,13 @@ pub enum RegisteredSealProof {
     StackedDrg512MiBV1_1,
     StackedDrg32GiBV1_1,
     StackedDrg64GiBV1_1,
+}
+
+/// Available aggregation proof types.
+/// Enum is append-only: once published, a `RegisteredAggregationProof` value must never change.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub enum RegisteredAggregationProof {
+    SnarkPackV1,
 }
 
 // Hack to delegate to self config types.
