@@ -12,11 +12,11 @@ readme = "README.md"
 anyhow = "1.0.26"
 bincode = "1.1.2"
 serde = "1.0.104"
-filecoin-proofs-v1 = { package = "filecoin-proofs", git = "ssh://git@github.com/nilfoundation/eliovp-rust-fil-proofs.git", branch = "master", default-features = false, features = ["gpu"] }
-storage-proofs-core = { package = "storage-proofs-core", git = "ssh://git@github.com/nilfoundation/eliovp-rust-fil-proofs.git", branch = "master", default-features = false, features = ["gpu"] }
-fr32 = { package = "fr32", git = "ssh://git@github.com/nilfoundation/eliovp-rust-fil-proofs.git", default-features = false, branch = "master", features = ["gpu"] }
-filecoin-hashers = { package = "filecoin-hashers", git = "ssh://git@github.com/nilfoundation/eliovp-rust-fil-proofs.git", branch = "master", default-features = false, features = ["poseidon", "sha256"] }
-bellperson = { git = "ssh://git@github.com/nilfoundation/eliovp-fil-zk.git", branch = "master", default-features = false, features = ["gpu"] }
+filecoin-proofs-v1 = { package = "filecoin-proofs", git = "https://github.com/ramin-raeisi/ev-rust-fil-proofs.git", branch = "master", default-features = false, features = ["gpu"] }
+storage-proofs-core = { package = "storage-proofs-core", git = "https://github.com/ramin-raeisi/ev-rust-fil-proofs.git", branch = "master", default-features = false, features = ["gpu"] }
+fr32 = { package = "fr32", git = "https://github.com/ramin-raeisi/ev-rust-fil-proofs.git", default-features = false, branch = "master", features = ["gpu"] }
+filecoin-hashers = { package = "filecoin-hashers", git = "https://github.com/ramin-raeisi/ev-rust-fil-proofs.git", branch = "master", default-features = false, features = ["poseidon", "sha256"] }
+bellperson = { git = "https://github.com/ramin-raeisi/ev-fil-zk.git", branch = "master", default-features = false, features = ["gpu"] }
 
 [features]
 default = ["blst", "gpu"]
